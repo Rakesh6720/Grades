@@ -11,6 +11,7 @@ namespace Grades
 
         public Gradebook()
         {
+            _name = "Empty";
             grades = new List<float>();
         }
 
@@ -36,7 +37,34 @@ namespace Grades
             return stats;
         }
 
-        public string Name;
+        private string _name;
+
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+
+            set
+                // can you notify other parts of code that the grade book name habeen changed?
+            {
+                if (!String.IsNullOrEmpty(value))
+                {
+                    if(_name != value)
+                    {
+                        NamedChangedEventArgs args = new NamedChangedEventArgs();
+                        args.ExistingName = _name;
+                        args.NewName = value;
+
+                        NameChanged(this, args);
+                    }
+                    _name = value;
+                }
+            }
+        }
+
+        public NameChangedDelegate NameChanged;
 
         List<float> grades;
     }
