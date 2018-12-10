@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,14 @@ namespace Grades
         public void AddGrade(float grade)
         {
             grades.Add(grade);
+        }
+
+        public void WriteGrades(TextWriter destination)
+        {
+            for (int i = grades.Count; i > 0; i--)
+            {
+                destination.WriteLine(grades[i-1]);
+            }
         }
 
         public GradeStatistics ComputeStatistics()
