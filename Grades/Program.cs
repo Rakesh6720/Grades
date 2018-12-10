@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,21 +11,56 @@ namespace Grades
     {
         static void Main(string[] args)
         {
-            
-            Gradebook book = new Gradebook();
+            Gradebook book = CreateGradeBook();
 
-            book.AddGrade(91);
-            book.AddGrade(89.5f);
-            book.AddGrade(75);
-            book.WriteGrades(Console.Out);
+            //GetBookName(book);
+            AddGrades(book);
+            SaveGrades(book);
+            WriteResults(book);
 
+        }
+
+        private static Gradebook CreateGradeBook()
+        {
+            return new ThrowAwayGradeBook();
+        }
+
+        private static void WriteResults(Gradebook book)
+        {
             GradeStatistics stats = book.ComputeStatistics();
-       
+
             WriteResult("Average grade", stats.AverageGrade);
             WriteResult("Highest grade", stats.HighestGrade);
             WriteResult("Lowest grade", stats.LowestGrade);
             WriteResult(stats.Description, stats.LetterGrade);
-            
+        }
+
+        private static void SaveGrades(Gradebook book)
+        {
+            using (StreamWriter outputFile = File.CreateText("grades.txt"))
+            {
+                book.WriteGrades(outputFile);
+            }
+        }
+
+        private static void AddGrades(Gradebook book)
+        {
+            book.AddGrade(91);
+            book.AddGrade(89.5f);
+            book.AddGrade(75);
+        }
+
+        private static void GetBookName(Gradebook book)
+        {
+            try
+            {
+                Console.WriteLine("Please enter a name");
+                book.Name = Console.ReadLine();
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         static void WriteResult(string description, string result)
