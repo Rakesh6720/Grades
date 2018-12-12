@@ -29,6 +29,11 @@ namespace Grades
         {
             GradeStatistics stats = book.ComputeStatistics();
 
+            foreach (float grade in book)
+            {
+                Console.WriteLine(grade);
+            }
+
             WriteResult("Average grade", stats.AverageGrade);
             WriteResult("Highest grade", stats.HighestGrade);
             WriteResult("Lowest grade", stats.LowestGrade);
