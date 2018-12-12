@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Grades
 {
-    public class Gradebook
+    public class Gradebook : GradeTracker
     {
 
         public Gradebook()
@@ -16,12 +16,12 @@ namespace Grades
             grades = new List<float>();
         }
 
-        public void AddGrade(float grade)
+        public override void AddGrade(float grade)
         {
             grades.Add(grade);
         }
 
-        public void WriteGrades(TextWriter destination)
+        public override void WriteGrades(TextWriter destination)
         {
             for (int i = grades.Count; i > 0; i--)
             {
@@ -29,7 +29,7 @@ namespace Grades
             }
         }
 
-        public virtual GradeStatistics ComputeStatistics()
+        public override GradeStatistics ComputeStatistics()
         {
 
             Console.WriteLine("GradeBook::ComputerStatistics");
@@ -48,40 +48,6 @@ namespace Grades
 
             return stats;
         }
-
-        private string _name;
-
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-
-            set
-            // can you notify other parts of code that the grade book name habeen changed?
-            // this is the role of Events and Delegates
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("Name cannot be null or empty.");
-                }
-
-                if (_name != value && NameChanged != null)
-                {
-                    NamedChangedEventArgs args = new NamedChangedEventArgs();
-                    args.ExistingName = _name;
-                    args.NewName = value;
-
-                    NameChanged(this, args);
-                }
-
-                _name = value;
-
-            }
-        }
-
-        public NameChangedDelegate NameChanged;
 
         protected List<float> grades;
     }

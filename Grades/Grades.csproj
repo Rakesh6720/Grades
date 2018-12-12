@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Gradebook.cs" />
     <Compile Include="GradeStatistics.cs" />
+    <Compile Include="GradeTracker.cs" />
     <Compile Include="NameChangedDelegate.cs" />
     <Compile Include="NamedChangedEventArgs.cs" />
     <Compile Include="Program.cs" />
